@@ -1,19 +1,16 @@
 class Solution {
 public:
-    int solve(int i, int j, int m, int n, vector<vector<int>> grid, vector<vector<int>> &dp){
-        if(i>m || j>n || grid[i][j] == 1 || grid[m][n] == 1) return 0;
-        if(i==m && j==n) return 1;
-        if(dp[i][j] != -1) return dp[i][j];
-        
-        int right = solve(i+1,j,m,n, grid,dp);
-        int down = solve(i,j+1,m,n, grid,dp);
-        return dp[i][j] = right + down;
-    }
-    
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-        int m = obstacleGrid.size();
-        int n = obstacleGrid[0].size();
-        vector<vector<int>> dp(m, vector<int>(n, -1));
-        return solve(0,0,m-1,n-1,obstacleGrid,dp);
+        int m = obstacleGrid.size(), n = obstacleGrid[0].size();
+        vector<vector<long long>> dp(m+1, vector<long long>(n+1, 0));
+        dp[m-1][n-1] = 1;
+        for(int i=m-1;i>=0;i--){
+            for(int j=n-1;j>=0;j--){
+                if(obstacleGrid[i][j]==1) dp[i][j] = 0;
+                else if(i ==m-1 && j==n-1) dp[i][j] = 1;
+                else dp[i][j] = dp[i][j+1] + dp[i+1][j];
+            }
+        }
+        return dp[0][0];
     }
 };
