@@ -1,9 +1,7 @@
 class MyCalendar {
 public:
+    /*
     vector<pair<int,int>>cal;
-    MyCalendar() {
-        
-    }
     
     bool book(int start, int end) {
         int n = cal.size();
@@ -19,6 +17,14 @@ public:
             cal.push_back({start, end});
             return true;
         }
+    } */
+    map<int, int> mp;
+    bool book(int start, int end){
+        auto it = mp.upper_bound(start);
+        if (it == mp.end() || end <= it->second){
+            mp[end]=start;
+            return true;
+        } else return false;
     }
 };
 
